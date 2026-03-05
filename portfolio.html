@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Konrad Cinkusz — Senior .NET Engineer & Founder</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #111115;
+    --bg3: #16161c;
+    --gold: #c8965a;
+    --gold-light: #e0b87a;
+    --gold-dim: #7a5535;
+    --text: #e8e4de;
+    --text-dim: #7a7670;
+    --text-muted: #3d3b38;
+    --border: #222228;
+    --border-gold: rgba(200,150,90,0.25);
+    --accent: #5a8cc8;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(200,150,90,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(200,150,90,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    bottom: -200px;
+    left: -100px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(ellipse, rgba(200,150,90,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 9vw, 9rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-tagline {
+    max-width: 620px;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-tagline strong { color: var(--text); font-weight: 500; }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-block;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+  .hero-scroll-hint {
+    position: absolute;
+    right: 4rem;
+    bottom: 3rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    animation: scrollLine 2s ease infinite;
+  }
+
+  .hero-stats {
+    position: absolute;
+    right: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+  }
+
+  .stat-item {
+    text-align: right;
+    border-right: 1px solid var(--border-gold);
+    padding-right: 1.5rem;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 7rem 4rem;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+
+  .section-index {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--border);
+    filter: grayscale(20%);
+    margin-bottom: 2rem;
+    transition: filter 0.4s;
+  }
+
+  .about-photo:hover { filter: grayscale(0%); }
+
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.9;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .info-block {
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    position: relative;
+    background: var(--bg3);
+  }
+
+  .info-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+  }
+
+  .info-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .info-value {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-group {
+    background: var(--bg);
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+
+  .skill-group:hover { background: var(--bg3); }
+
+  .skill-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .skill-group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--gold-dim);
+    color: var(--gold);
+    background: rgba(200,150,90,0.05);
+  }
+
+  .skill-tag.primary {
+    border-color: var(--gold-dim);
+    color: var(--gold);
+    background: rgba(200,150,90,0.08);
+  }
+
+  /* ── AURELIUS ── */
+  #aurelius { background: var(--bg2); }
+
+  .product-hero {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+
+  .product-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(200,150,90,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .product-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border-gold);
+    padding: 0.35rem 0.9rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .product-name em { font-style: italic; color: var(--gold); }
+
+  .product-desc {
+    max-width: 600px;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+    margin-bottom: 3rem;
+  }
+
+  .product-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .product-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+  }
+
+  .product-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    border: 1px solid var(--border);
+    padding: 2rem;
+    background: var(--bg);
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-3px);
+  }
+
+  .feature-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  .feature-desc {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── RESEARCH ── */
+  #research { background: var(--bg); }
+
+  .research-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .research-item {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 3rem;
+    align-items: start;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .research-item:last-child { border-bottom: 1px solid var(--border); }
+
+  .research-item:hover { background: rgba(200,150,90,0.02); padding-left: 1rem; padding-right: 1rem; margin: 0 -1rem; }
+
+  .research-venue {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-top: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .research-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .research-meta {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  .research-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding-top: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .education-block {
+    margin-top: 5rem;
+    border: 1px solid var(--border);
+    padding: 3rem;
+    background: var(--bg3);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .edu-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .edu-degree {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-school {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg2); }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 4rem 3rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-dot {
+    position: absolute;
+    left: -4px;
+    top: 0.4rem;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .timeline-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+
+  .timeline-company {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 1.2rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    max-width: 680px;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .tl-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    border: 1px solid var(--text-muted);
+    padding: 0.2rem 0.55rem;
+  }
+
+  /* ── AVAILABILITY ── */
+  #availability { background: var(--bg3); }
+
+  .avail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .avail-status {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    background: #4caf7d;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(76,175,125,0.2);
+    animation: pulse 2s ease infinite;
+  }
+
+  .status-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4caf7d;
+  }
+
+  .avail-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .avail-heading em { font-style: italic; color: var(--gold); }
+
+  .avail-text {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+    margin-bottom: 2rem;
+  }
+
+  .collab-modes {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .collab-card {
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    background: var(--bg);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    transition: border-color 0.3s;
+  }
+
+  .collab-card:hover { border-color: var(--gold-dim); }
+
+  .collab-icon {
+    font-size: 1.3rem;
+    padding-top: 0.1rem;
+  }
+
+  .collab-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .collab-desc {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .contact-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-heading em { font-style: italic; color: var(--gold); }
+
+  .contact-subtext {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+    margin-bottom: 3rem;
+    max-width: 440px;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    group: true;
+    transition: padding-left 0.3s;
+  }
+
+  .contact-link:hover { padding-left: 1rem; }
+  .contact-link:first-child { border-top: 1px solid var(--border); }
+
+  .contact-link-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .contact-link-value {
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .contact-link:hover .contact-link-value { color: var(--gold); }
+
+  .contact-link-arrow {
+    color: var(--text-muted);
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  .contact-link:hover .contact-link-arrow {
+    color: var(--gold);
+    transform: translateX(4px);
+  }
+
+  .contact-cta-block {
+    background: var(--bg3);
+    border: 1px solid var(--border-gold);
+    padding: 3rem;
+  }
+
+  .contact-cta-block .btn-primary {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .contact-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+  }
+
+  .footer-left {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--text-dim);
+  }
+
+  .footer-left em { font-style: italic; color: var(--gold); }
+
+  .footer-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(76,175,125,0.2); }
+    50% { box-shadow: 0 0 0 6px rgba(76,175,125,0.1); }
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    #hero { padding: 0 2rem 5rem; }
+    .about-layout, .avail-grid, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-stats { display: none; }
+    .skills-layout { grid-template-columns: 1fr; }
+    .product-features { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-scroll-hint { display: none; }
+    .education-block { grid-template-columns: 1fr; }
+    .section-rule { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Konrad C.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#aurelius">Aurelius</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#availability">Availability</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:konradcinkusz@gmail.com" class="nav-cta">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-number">10+</div>
+      <div class="stat-label">Years of<br>Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Peer-Reviewed<br>Publications</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">M.Sc.</div>
+      <div class="stat-label">Warsaw Univ.<br>of Technology</div>
+    </div>
+  </div>
+
+  <p class="hero-eyebrow">Senior .NET Engineer &amp; Founder — Alicante, Spain</p>
+  <h1 class="hero-name">Konrad<br><em>Cinkusz</em></h1>
+  <p class="hero-tagline">
+    I build <strong>scalable enterprise systems</strong> with C#/.NET &amp; Azure,
+    founded <strong><a href="https://aurelius.today" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-dim);">aurelius.today</a></strong> — an AI governance &amp; workflow automation platform — and research
+    <strong>LLM-powered multi-agent systems</strong> at Warsaw University of Technology.
+  </p>
+  <div class="hero-actions">
+    <a href="#aurelius" class="btn-primary">See Aurelius</a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-index">01</span>
+    <h2 class="section-title">About <em>Me</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="about-layout">
+    <div class="about-text reveal">
+      <p>
+        <strong>Senior .NET Engineer</strong> with over 10 years of commercial experience
+        across fintech, retail, SaaS, and public-sector projects.
+        Deep expertise in <strong>C#, .NET, and Azure</strong>; equally comfortable in
+        greenfield microservices and large-scale legacy modernisation.
+      </p>
+      <p>
+        I integrate <strong>AI-assisted development tools</strong> (GitHub Copilot, LLM APIs)
+        daily to accelerate delivery quality and velocity. Founded
+        <strong><a href="https://aurelius.today" style="color:var(--text);text-decoration:none;border-bottom:1px solid var(--gold-dim);">aurelius.today</a></strong> —
+        an AI governance &amp; workflow automation platform with a Multi-Agent Simulation
+        Whiteboard, prompt version control, and a community marketplace. MVP complete with
+        3 frontend apps, 7 microservices, and production-ready Azure deployment.
+      </p>
+      <p>
+        Active researcher in <strong>LLM-powered Multi-Agent Systems</strong> at
+        Warsaw University of Technology, with publications at IEEE/ACM and ICAART conferences.
+        Author of the <strong>CogniSim</strong> platform — a simulation framework for
+        AI-driven Agile project management.
+      </p>
+      <p>
+        Based in <strong>Alicante, Spain</strong> (EU citizen). Available for on-site roles
+        in Madrid and open to relocation within Europe.
+      </p>
+    </div>
+
+    <div class="about-aside reveal">
+      <img src="Konrad_Cinkusz_Photo.jpg" alt="Konrad Cinkusz" class="about-photo" />
+      <div class="info-block">
+        <div class="info-label">Location</div>
+        <div class="info-value">Alicante, Spain<br><span style="color:var(--text-dim); font-size:0.85rem;">EU citizen — available on-site in Madrid &amp; open to EU relocation</span></div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Core Expertise</div>
+        <div class="info-value">C# / .NET (Framework / Core / 8–9) · Azure<br>ASP.NET Core · Microservices · Docker · CI/CD</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Languages</div>
+        <div class="info-value">Polish (native) · English (C1, proficient) · Spanish (A2, beginner)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Currently</div>
+        <div class="info-value">Developing Aurelius · Researching LLM multi-agent systems at WUT · Open to senior engineering opportunities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-index">02</span>
+    <h2 class="section-title">Tech <em>Stack</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="skills-layout reveal">
+    <div class="skill-group">
+      <div class="skill-group-label">Core Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag primary">C#</span>
+        <span class="skill-tag primary">.NET (Framework / Core / 8–9)</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Java</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-label">Backend &amp; Architecture</div>
+      <div class="skill-tags">
+        <span class="skill-tag primary">ASP.NET Core</span>
+        <span class="skill-tag primary">Entity Framework Core</span>
+        <span class="skill-tag">CQRS</span>
+        <span class="skill-tag">SignalR</span>
+        <span class="skill-tag">LINQ</span>
+        <span class="skill-tag">WPF</span>
+        <span class="skill-tag">Microservices</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">JWT Auth</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">CI/CD</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-label">Cloud &amp; DevOps</div>
+      <div class="skill-tags">
+        <span class="skill-tag primary">Microsoft Azure</span>
+        <span class="skill-tag">Azure Container Apps</span>
+        <span class="skill-tag">Azure DevOps</span>
+        <span class="skill-tag">Bicep</span>
+        <span class="skill-tag">Azure AD</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">GitHub Actions</span>
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">TFS</span>
+        <span class="skill-tag">Bitbucket</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-label">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag primary">MS SQL Server</span>
+        <span class="skill-tag">Oracle DB</span>
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">MongoDB</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-label">Frontend</div>
+      <div class="skill-tags">
+        <span class="skill-tag primary">React</span>
+        <span class="skill-tag primary">Next.js</span>
+        <span class="skill-tag">Angular</span>
+        <span class="skill-tag">Tailwind CSS</span>
+        <span class="skill-tag">jQuery</span>
+        <span class="skill-tag">Knockout</span>
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-label">AI &amp; Research</div>
+      <div class="skill-tags">
+        <span class="skill-tag primary">LLMs</span>
+        <span class="skill-tag primary">Multi-Agent Systems</span>
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">OpenAI API</span>
+        <span class="skill-tag">Azure OpenAI</span>
+        <span class="skill-tag">GitHub Copilot</span>
+        <span class="skill-tag">Cursor AI</span>
+        <span class="skill-tag">CogniSim</span>
+        <span class="skill-tag">CUDA</span>
+        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">TensorFlow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AURELIUS -->
+<section id="aurelius">
+  <div class="section-header reveal">
+    <span class="section-index">03</span>
+    <h2 class="section-title"><em>Aurelius</em>.today</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="product-hero reveal">
+    <span class="product-badge">Founded 2025 · MVP Complete · AI Automation Platform</span>
+    <h3 class="product-name">AI governance &amp;<br><em>workflow automation.</em></h3>
+    <p class="product-desc">
+      The bottleneck isn’t generation anymore — it’s workflow design. Aurelius is
+      the system of record for the prompts that drive business outcomes: versioned,
+      attributed, and reproducible. Plus a Multi-Agent Simulation Whiteboard for
+      visually designing orchestrated AI workflows with guardrails — delivering
+      70–90% lower token costs and dramatically higher reliability.
+    </p>
+    <div class="product-pills">
+      <span class="product-pill">Next.js 14</span>
+      <span class="product-pill">React 18 / TypeScript</span>
+      <span class="product-pill">.NET 8/9 + Aspire</span>
+      <span class="product-pill">Liveblocks</span>
+      <span class="product-pill">Azure Container Apps</span>
+      <span class="product-pill">Azure OpenAI</span>
+      <span class="product-pill">SQL Server</span>
+      <span class="product-pill">Stripe</span>
+      <span class="product-pill">Terraform</span>
+      <span class="product-pill">OpenTelemetry</span>
+      <span class="product-pill">GitHub Actions CI/CD</span>
+    </div>
+  </div>
+
+  <!-- What's Built -->
+  <div class="product-features reveal" style="margin-bottom:3rem;">
+    <div class="feature-card">
+      <div class="feature-icon">💻</div>
+      <div class="feature-title">3 Frontend Apps</div>
+      <p class="feature-desc">Management Portal for enterprise teams · Public Marketplace for community discovery · Investor One-Pager site. All Next.js 14 + React 18.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚙️</div>
+      <div class="feature-title">7 Microservices</div>
+      <p class="feature-desc">Auth &amp; Identity · Agent Templates · Agentic Orchestration · Prompt Templates · Marketplace — all on .NET 8/9 with Aspire orchestration.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✅</div>
+      <div class="feature-title">MVP Complete</div>
+      <p class="feature-desc">Real-time collaboration · AI simulation engine · Quality analytics · Stripe payments · Azure deployment. Production-ready architecture, seeking angel investment.</p>
+    </div>
+  </div>
+
+  <!-- Key Capabilities -->
+  <div class="product-features reveal">
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Multi-Agent Whiteboard</div>
+      <p class="feature-desc">Real-time collaborative canvas for visually designing, testing, and simulating multi-agent AI workflows. Shapes, freehand drawing, sticky notes, arrow connections — with live cursors via Liveblocks.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📉</div>
+      <div class="feature-title">70–90% Token Cost Reduction</div>
+      <p class="feature-desc">Proper workflow automation with scoped contexts, relevant knowledge injection, and input validation before execution — not massive unscoped prompts thrown at models and hoping.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗂️</div>
+      <div class="feature-title">Prompt Version Control</div>
+      <p class="feature-desc">Every prompt versioned, attributed, and timestamped. Centralised library with org-wide governance, approval workflows, and full audit trails.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Quality Metrics &amp; Analytics</div>
+      <p class="feature-desc">Measure AI output with relevance scoring, sentiment analysis, readability grades, latency tracking, and governance dashboards for data-driven optimisation.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏪</div>
+      <div class="feature-title">Community Marketplace</div>
+      <p class="feature-desc">Browse &amp; discover automation workflows anonymously. Community ratings, reviews, one-click import, publisher profiles, and trending content.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">Prompt Governance (Vision)</div>
+      <p class="feature-desc">Browser extension lockdown mode for approved-only prompts across 8 AI platforms. Compliance exports for EU AI Act, SOC 2, ISO 42001. DLP-lite scanning flags PII before submission.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-header reveal">
+    <span class="section-index">04</span>
+    <h2 class="section-title">Research &amp; <em>Academia</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="research-list reveal">
+    <div class="research-item">
+      <div class="research-venue">Electronics</div>
+      <div>
+        <div class="research-title">Cognitive Agents Powered by Large Language Models for Agile Software Project Management</div>
+        <div class="research-meta">Konrad Cinkusz, Jarosław A. Chudziak, Ewa Niewiadomska-Szynkiewicz — Electronics Journal, Vol. 14, No. 1</div>
+      </div>
+      <div class="research-year">2025</div>
+    </div>
+    <div class="research-item">
+      <div class="research-venue">IEEE/ACM</div>
+      <div>
+        <div class="research-title">Towards LLM-augmented Multiagent Systems for Agile Software Engineering</div>
+        <div class="research-meta">Jarosław A. Chudziak, Konrad Cinkusz — 39th IEEE/ACM International Conference on Automated Software Engineering (ASE ’24), Sacramento, CA</div>
+      </div>
+      <div class="research-year">2024</div>
+    </div>
+    <div class="research-item">
+      <div class="research-venue">MDAI</div>
+      <div>
+        <div class="research-title">Communicative Agents for Software Project Management and System Development</div>
+        <div class="research-meta">Konrad Cinkusz, Jarosław A. Chudziak — 21st International Conference on Modeling Decisions for Artificial Intelligence (MDAI 2024), Tokyo, Japan</div>
+      </div>
+      <div class="research-year">2024</div>
+    </div>
+  </div>
+
+  <div class="education-block reveal">
+    <div>
+      <div class="edu-label">Master's Degree (2022 – 2024)</div>
+      <div class="edu-degree">M.Sc. Computer Science</div>
+      <div class="edu-school">Warsaw University of Technology — Grade: 4.5 / 5.0<br>Specialisation: Artificial Intelligence &amp; Multi-Agent Systems</div>
+      <div style="margin-top: 0.8rem; font-size: 0.88rem; color: var(--text-dim); line-height: 1.7;">Thesis: <em>Communicative Agents for Software Project Management and System Development</em> — designed CogniSim, a cognitive multi-agent system leveraging LLMs to automate Scrum and SAFe workflows.</div>
+    </div>
+    <div>
+      <div class="edu-label">Bachelor's Degree (2015 – 2019)</div>
+      <div class="edu-degree">B.Sc. (Eng.) Computer Science</div>
+      <div class="edu-school">Lodz University of Technology — Grade: 4.5 / 5.0</div>
+      <div style="margin-top: 0.8rem; font-size: 0.88rem; color: var(--text-dim); line-height: 1.7;">Thesis: <em>Acceleration of the forward problem in 3D electrical capacitance tomography using a matrix-free finite element method</em> — implemented in C/CUDA C on NVidia Tesla GPU.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-index">05</span>
+    <h2 class="section-title">Work <em>History</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="timeline reveal">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Oct 2025 — Feb 2026</div>
+      <div class="timeline-role">.NET Software Engineer</div>
+      <div class="timeline-company">Omada Identity Spain — Remote, Spain</div>
+      <p class="timeline-desc">
+        Contributed to Omada’s Identity Governance &amp; Administration (IGA) platform.
+        Implemented backend services for identity lifecycle management, access certification
+        workflows, and role-based access control. Agile environment with code reviews and
+        architectural discussions.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">.NET</span>
+        <span class="tl-tag">MS SQL Server</span>
+        <span class="tl-tag">Azure DevOps</span>
+        <span class="tl-tag">IAM SaaS</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Feb 2025 — Present</div>
+      <div class="timeline-role">Founder &amp; Lead Developer</div>
+      <div class="timeline-company">Aurelius (aurelius.today) — AI Governance &amp; Automation Platform</div>
+      <p class="timeline-desc">
+        Founded an AI automation platform with prompt version control, a Multi-Agent
+        Simulation Whiteboard for visual workflow orchestration, and a community marketplace.
+        Built 3 frontend apps and 7 microservices from zero. MVP complete — seeking angel
+        investment for growth. Cloud-native architecture on .NET Aspire + Azure.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">Next.js 14</span>
+        <span class="tl-tag">React 18</span>
+        <span class="tl-tag">.NET 8/9</span>
+        <span class="tl-tag">Aspire</span>
+        <span class="tl-tag">Liveblocks</span>
+        <span class="tl-tag">Azure</span>
+        <span class="tl-tag">Stripe</span>
+        <span class="tl-tag">Terraform</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Sep 2022 — Mar 2025</div>
+      <div class="timeline-role">Full-Stack Engineer (.NET / MVC / Razor Pages)</div>
+      <div class="timeline-company">Nisa (Retail) via Crosslake Technologies — Remote, UK</div>
+      <p class="timeline-desc">
+        Grocery e-commerce platform; migrating legacy ASP.NET Web Forms on classic
+        .NET Framework to modern .NET. Daily work with C#, MS SQL Server, Oracle,
+        jQuery, Git, and Azure DevOps.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">ASP.NET</span>
+        <span class="tl-tag">MS SQL Server</span>
+        <span class="tl-tag">Oracle</span>
+        <span class="tl-tag">Azure DevOps</span>
+        <span class="tl-tag">Retail</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Mar 2022 — Sep 2022</div>
+      <div class="timeline-role">Full-Stack Engineer (.NET 6 / Azure)</div>
+      <div class="timeline-company">Solgari (SaaS) via Bright Coders’ Factory — Remote, Ireland</div>
+      <p class="timeline-desc">
+        Microsoft Teams omni-channel contact-centre application built on .NET 6 APIs
+        with CQRS and SignalR. Cloud telephony &amp; customer-engagement SaaS.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">.NET 6</span>
+        <span class="tl-tag">EF Core</span>
+        <span class="tl-tag">SignalR</span>
+        <span class="tl-tag">CQRS</span>
+        <span class="tl-tag">Azure</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Jul 2020 — Oct 2021</div>
+      <div class="timeline-role">Full-Stack Developer (.NET Core / Angular / React)</div>
+      <div class="timeline-company">Rossmann SDP — Łódź, Poland</div>
+      <p class="timeline-desc">
+        Internal B2B ordering system, CMS and microservices on ASP.NET Core 3.1.
+        Front-end with Angular, React dashboards, Knockout &amp; jQuery.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">ASP.NET Core</span>
+        <span class="tl-tag">Angular</span>
+        <span class="tl-tag">React</span>
+        <span class="tl-tag">MS SQL Server</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Mar 2018 — Aug 2019</div>
+      <div class="timeline-role">Software Engineer (C#, Python, WPF)</div>
+      <div class="timeline-company">Transfer Multisort Elektronik (TME) — Łódź, Poland</div>
+      <p class="timeline-desc">
+        WPF parcel-tracking suite “Conveyor”; product recognition with OpenCV
+        &amp; TensorFlow. Parallel C# and CUDA for high-performance computing.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">Python</span>
+        <span class="tl-tag">WPF</span>
+        <span class="tl-tag">OpenCV</span>
+        <span class="tl-tag">CUDA</span>
+        <span class="tl-tag">TensorFlow</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Jun 2016 — Jul 2017</div>
+      <div class="timeline-role">C# Developer (DevExpress)</div>
+      <div class="timeline-company">Polish Ministry of Defence via Fabrity — Warsaw, Poland</div>
+      <p class="timeline-desc">
+        Document-flow system for sapper work registration; UX built with DevExpress XAF.
+        ASP.NET Web Forms, WinForms, WPF, LINQ, IIS, TFS.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">DevExpress</span>
+        <span class="tl-tag">ASP.NET</span>
+        <span class="tl-tag">WPF</span>
+        <span class="tl-tag">Defence</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Jun 2015 — Jun 2020</div>
+      <div class="timeline-role">Full-Stack Developer</div>
+      <div class="timeline-company">Fabrity (Software House) — Łódź, Poland</div>
+      <p class="timeline-desc">
+        Workflow applications for the pharmacy sector; banking CRM; Warsaw city
+        e-documents portal. C#, ASP.NET MVC 5 &amp; Web Forms, K2, MS SQL Server.
+        Sectors: pharma, finance, public administration.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">C#</span>
+        <span class="tl-tag">ASP.NET MVC</span>
+        <span class="tl-tag">K2</span>
+        <span class="tl-tag">MS SQL Server</span>
+        <span class="tl-tag">Web API</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Jun 2014 — Aug 2014</div>
+      <div class="timeline-role">Software Engineering Intern (Java)</div>
+      <div class="timeline-company">Oracle — Warsaw, Poland</div>
+      <p class="timeline-desc">
+        Proof-of-concept mobile application using Oracle Mobile Application Framework (MAF).
+        Java SE 8, Oracle MAF, ADF Mobile.
+      </p>
+      <div class="timeline-tags">
+        <span class="tl-tag">Java</span>
+        <span class="tl-tag">Oracle MAF</span>
+        <span class="tl-tag">ADF Mobile</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AVAILABILITY -->
+<section id="availability">
+  <div class="section-header reveal">
+    <span class="section-index">06</span>
+    <h2 class="section-title">Availability &amp; <em>Collaboration</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="avail-grid reveal">
+    <div>
+      <div class="avail-status">
+        <div class="status-dot"></div>
+        <span class="status-text">Open to opportunities</span>
+      </div>
+      <h3 class="avail-heading">Let's build<br>something <em>exceptional.</em></h3>
+      <p class="avail-text">
+        I'm selectively available for senior engineering roles and high-impact collaborations. 
+        I bring over a decade of hands-on .NET expertise, a research mindset, and the strategic 
+        perspective of a founder who's shipped real products.
+      </p>
+      <p class="avail-text">
+        I prefer async-first, remote teams. Based in Alicante — aligned with Western European
+        and US time zones. Fluent in English and Polish; learning Spanish.
+      </p>
+    </div>
+
+    <div class="collab-modes">
+      <div class="collab-card">
+        <div class="collab-icon">💼</div>
+        <div>
+          <div class="collab-title">Senior Engineering Role</div>
+          <p class="collab-desc">Full-time or long-term contract. Ideal for companies building complex distributed systems who need a senior .NET architect who can also lead technically.</p>
+        </div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">🚀</div>
+        <div>
+          <div class="collab-title">Startup / Accelerator Partner</div>
+          <p class="collab-desc">Technical co-founder or CTO-as-a-service for early-stage ventures. Particularly interested in AI tooling, developer tools, and B2B SaaS.</p>
+        </div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">🔬</div>
+        <div>
+          <div class="collab-title">Architecture Consulting</div>
+          <p class="collab-desc">Short-term engagements for microservices architecture review, cloud migration strategy, or .NET modernisation of legacy systems.</p>
+        </div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">🤝</div>
+        <div>
+          <div class="collab-title">Aurelius Partnership</div>
+          <p class="collab-desc">Open to investor conversations, enterprise pilot partnerships, and integration collaborations around the Aurelius platform.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-index">07</span>
+    <h2 class="section-title">Get in <em>Touch</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="contact-layout">
+    <div class="reveal">
+      <h3 class="contact-heading">Ready to<br>build <em>together?</em></h3>
+      <p class="contact-subtext">
+        Whether you're hiring for a senior .NET role, exploring a startup collaboration, 
+        or interested in Aurelius — I'd love to hear from you. I respond within 24 hours.
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:konradcinkusz@gmail.com" class="contact-link">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-value">konradcinkusz@gmail.com</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/konrad-cinkusz-378127227/" target="_blank" class="contact-link">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">linkedin.com/in/konrad-cinkusz</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://github.com/konradcinkusz/" target="_blank" class="contact-link">
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-value">github.com/konradcinkusz</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://aurelius.today" target="_blank" class="contact-link">
+          <span class="contact-link-label">Aurelius</span>
+          <span class="contact-link-value">aurelius.today</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://orcid.org/0009-0001-5709-1172" target="_blank" class="contact-link">
+          <span class="contact-link-label">ORCID</span>
+          <span class="contact-link-value">orcid.org/0009-0001-5709-1172</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-cta-block reveal">
+      <div class="info-label" style="margin-bottom: 1.5rem;">Quick contact</div>
+      <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 2rem;">
+        Interested in working together? Drop me an email directly — 
+        include a brief note about what you're building and what role you 
+        have in mind. No cover letters needed.
+      </p>
+      <a href="mailto:konradcinkusz@gmail.com?subject=Let's%20work%20together" class="btn-primary">Send me an email</a>
+      <p class="contact-note">Based in Alicante, Spain · CET/CEST timezone · Remote-first</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Konrad <em>Cinkusz</em> — Senior .NET Engineer &amp; Founder</div>
+  <div class="footer-right">Built with intention · 2025</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Timeline items
+  const tlObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.timeline-item').forEach(el => tlObserver.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === `#${current}` ? 'var(--gold)' : '';
+    });
+  });
+</script>
+</body>
+</html>
