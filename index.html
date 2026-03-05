@@ -404,6 +404,71 @@
     aspect-ratio: 3 / 4;
   }
 
+  /* ── FAVOURITES ── */
+  #favourites { background: var(--bg); }
+
+  .fav-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .fav-column-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .fav-column-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .fav-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    transition: padding-left 0.3s;
+    cursor: default;
+  }
+
+  .fav-item:first-of-type { border-top: 1px solid var(--border); }
+
+  .fav-item:hover { padding-left: 0.8rem; }
+
+  .fav-item-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    transition: color 0.3s;
+  }
+
+  .fav-item:hover .fav-item-title { color: var(--gold); }
+
+  .fav-item-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .fav-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
   /* ── SKILLS ── */
   #skills { background: var(--bg); }
 
@@ -954,6 +1019,34 @@
     color: var(--text-muted);
   }
 
+  /* ── CUSTOM CURSOR ── */
+  *, *::before, *::after { cursor: none !important; }
+
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(200,150,90,0.6), 0 0 20px rgba(200,150,90,0.3);
+    transition: opacity 0.3s;
+  }
+
+  .cursor-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  @media (max-width: 900px) {
+    .cursor-dot, .cursor-canvas { display: none; }
+    *, *::before, *::after { cursor: auto !important; }
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -1013,6 +1106,7 @@
   <a href="#hero" class="nav-logo">Konrad C.</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#favourites">Favourites</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#aurelius">Aurelius</a></li>
     <li><a href="#research">Research</a></li>
@@ -1134,10 +1228,93 @@
   </div>
 </section>
 
+<!-- FAVOURITES -->
+<section id="favourites">
+  <div class="section-header reveal">
+    <span class="section-index">02</span>
+    <h2 class="section-title">Personal <em>Favourites</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="fav-layout reveal">
+    <div>
+      <div class="fav-column-label">📚 Books</div>
+      <div class="fav-item">
+        <span class="fav-item-title">The Return of the King</span>
+        <span class="fav-item-sub">J.R.R. Tolkien</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Crime and Punishment</span>
+        <span class="fav-item-sub">Fyodor Dostoevsky</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Flowers for Algernon</span>
+        <span class="fav-item-sub">Daniel Keyes</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Anna Karenina</span>
+        <span class="fav-item-sub">Leo Tolstoy</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Ender's Game</span>
+        <span class="fav-item-sub">Orson Scott Card</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Futu.re</span>
+        <span class="fav-item-sub">Dmitry Glukhovsky</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">The Gulag Archipelago</span>
+        <span class="fav-item-sub">Aleksandr Solzhenitsyn</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Hyperion</span>
+        <span class="fav-item-sub">Dan Simmons</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">The Terror</span>
+        <span class="fav-item-sub">Dan Simmons</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Foundation</span>
+        <span class="fav-item-sub">Isaac Asimov</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Solaris</span>
+        <span class="fav-item-sub">Stanisław Lem</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="fav-column-label">🎵 Music</div>
+      <div class="fav-item">
+        <span class="fav-item-title">System of a Down</span>
+        <span class="fav-item-sub">Metal / Alt-Rock</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Korn</span>
+        <span class="fav-item-sub">Nu-Metal</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Keny Arkana</span>
+        <span class="fav-item-sub">French Rap / Activist</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">O.S.T.R.</span>
+        <span class="fav-item-sub">Polish Hip-Hop</span>
+      </div>
+      <div class="fav-item">
+        <span class="fav-item-title">Pezet</span>
+        <span class="fav-item-sub">Polish Hip-Hop</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SKILLS -->
 <section id="skills">
   <div class="section-header reveal">
-    <span class="section-index">02</span>
+    <span class="section-index">03</span>
     <h2 class="section-title">Tech <em>Stack</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1230,7 +1407,7 @@
 <!-- AURELIUS -->
 <section id="aurelius">
   <div class="section-header reveal">
-    <span class="section-index">03</span>
+    <span class="section-index">04</span>
     <h2 class="section-title"><em>Aurelius</em>.today</h2>
     <div class="section-rule"></div>
   </div>
@@ -1317,7 +1494,7 @@
 <!-- RESEARCH -->
 <section id="research">
   <div class="section-header reveal">
-    <span class="section-index">04</span>
+    <span class="section-index">05</span>
     <h2 class="section-title">Research &amp; <em>Academia</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1368,7 +1545,7 @@
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header reveal">
-    <span class="section-index">05</span>
+    <span class="section-index">06</span>
     <h2 class="section-title">Work <em>History</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1553,7 +1730,7 @@
 <!-- AVAILABILITY -->
 <section id="availability">
   <div class="section-header reveal">
-    <span class="section-index">06</span>
+    <span class="section-index">07</span>
     <h2 class="section-title">Availability &amp; <em>Collaboration</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1612,7 +1789,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
-    <span class="section-index">07</span>
+    <span class="section-index">08</span>
     <h2 class="section-title">Get in <em>Touch</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1711,6 +1888,68 @@
       link.style.color = link.getAttribute('href') === `#${current}` ? 'var(--gold)' : '';
     });
   });
+
+  // ── Custom cursor & gold dust ──
+  (function() {
+    if (window.matchMedia('(max-width: 900px)').matches) return;
+
+    const dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    document.body.appendChild(dot);
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'cursor-canvas';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let mx = -100, my = -100;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+      dot.style.opacity = '1';
+      for (let i = 0; i < 3; i++) {
+        particles.push({
+          x: mx + (Math.random() - 0.5) * 4,
+          y: my + (Math.random() - 0.5) * 4,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5 + 0.5,
+          life: 1,
+          size: Math.random() * 2.5 + 1
+        });
+      }
+    });
+
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; });
+
+    const particles = [];
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 0.02;
+        if (p.life <= 0) { particles.splice(i, 1); continue; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200,150,90,${p.life * 0.6})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
 </script>
 </body>
 </html>
