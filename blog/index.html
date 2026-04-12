@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog — Konrad Cinkusz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #111115;
+    --bg3: #16161c;
+    --gold: #c8965a;
+    --gold-light: #e0b87a;
+    --gold-dim: #7a5535;
+    --text: #e8e4de;
+    --text-dim: #7a7670;
+    --text-muted: #3d3b38;
+    --border: #222228;
+    --border-gold: rgba(200,150,90,0.25);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--gold); }
+
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+  /* PAGE */
+  .page-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 10rem 2rem 8rem;
+  }
+
+  .page-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.1s forwards;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.25s forwards;
+  }
+
+  .page-title em { font-style: italic; color: var(--gold); }
+
+  .page-desc {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+    max-width: 560px;
+    margin-bottom: 5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.4s forwards;
+  }
+
+  /* POSTS LIST */
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.55s forwards;
+  }
+
+  .post-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 2rem;
+    align-items: start;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .post-item:first-child { border-top: 1px solid var(--border); }
+
+  .post-item:hover .post-title { color: var(--gold); }
+  .post-item:hover .post-arrow { transform: translateX(6px); color: var(--gold); }
+
+  .post-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    padding-top: 0.35rem;
+    line-height: 1.5;
+  }
+
+  .post-body { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+  }
+
+  .post-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border-gold);
+    padding: 0.15rem 0.55rem;
+  }
+
+  .post-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    transition: color 0.2s;
+  }
+
+  .post-excerpt {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .post-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .post-arrow {
+    color: var(--text-muted);
+    transition: transform 0.2s, color 0.2s;
+    font-size: 0.8rem;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    padding: 4rem 0;
+    text-align: center;
+    border: 1px dashed var(--border);
+  }
+
+  .empty-state p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* FOOTER */
+  .page-footer {
+    margin-top: 6rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    nav { padding: 1.5rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-wrapper { padding: 8rem 1.5rem 5rem; }
+
+    .post-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .post-date { padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">Konrad C.</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../ksiazki/index.html">Ksiazki</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="../index.html#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <p class="page-eyebrow">Myśli / Notes</p>
+  <h1 class="page-title">Blog &amp;<br><em>Przemyślenia</em></h1>
+  <p class="page-desc">
+    Notatki z codzienności — o technologii, budowaniu produktów, badaniach
+    i wszystkim co przykuwa moją uwagę. Bez filtra, bez pressreleases.
+  </p>
+
+  <!-- ════════════════════════════════════════════════
+       LISTA WPISÓW
+       Aby dodać nowy wpis:
+       1. Skopiuj blok <a class="post-item"> poniżej
+       2. Zmień href na ścieżkę do nowego pliku HTML
+       3. Uzupełnij datę, tagi, tytuł i zajawkę
+       ════════════════════════════════════════════════ -->
+  <div class="posts-list">
+
+    <a href="posts/2026-04-12-pierwszy-wpis.html" class="post-item">
+      <div class="post-date">
+        12 Kwi<br>2026
+      </div>
+      <div class="post-body">
+        <div class="post-tags">
+          <span class="post-tag">Refleksje</span>
+          <span class="post-tag">AI</span>
+        </div>
+        <div class="post-title">Pierwszy wpis — po co w ogóle pisać?</div>
+        <div class="post-excerpt">
+          Dlaczego postanowiłem zacząć pisać publicznie. O myśleniu przez pisanie,
+          eksternalizacji wiedzy i tym, że internet jest dzienniczkiem z długą pamięcią.
+        </div>
+        <div class="post-footer">
+          <span>Czytaj</span>
+          <span class="post-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- TUTAJ WKLEJAJ KOLEJNE WPISY (od najnowszego) -->
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="page-wrapper" style="padding-top:0;">
+  <div class="page-footer">
+    <span class="footer-text">&copy; 2026 Konrad Cinkusz</span>
+    <ul class="footer-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../ksiazki/index.html">Ksiazki</a></li>
+      <li><a href="mailto:konradcinkusz@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
