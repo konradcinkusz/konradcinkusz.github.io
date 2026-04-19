@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Konrad Cinkusz — Software Engineer (M.Sc. Eng.) & Founder</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/shared.css" />
+<script src="assets/shared.js"></script>
 <style>
   :root {
     --bg: #0d0d0f;
@@ -83,7 +85,8 @@
     transition: color 0.3s;
   }
 
-  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--gold); }
 
   .nav-cta {
     font-family: 'DM Mono', monospace;
@@ -1027,34 +1030,6 @@
     color: var(--text-muted);
   }
 
-  /* ── CUSTOM CURSOR ── */
-  *, *::before, *::after { cursor: none !important; }
-
-  .cursor-dot {
-    position: fixed;
-    top: 0; left: 0;
-    width: 10px; height: 10px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 8px rgba(200,150,90,0.6), 0 0 20px rgba(200,150,90,0.3);
-    transition: opacity 0.3s;
-  }
-
-  .cursor-canvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  @media (max-width: 900px) {
-    .cursor-dot, .cursor-canvas { display: none; }
-    *, *::before, *::after { cursor: auto !important; }
-  }
-
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -1195,189 +1170,10 @@
   }
 </style>
 
-<style>
-  /* ── GUARD OVERLAY ── */
-  #guard-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    transition: opacity 0.6s ease;
-  }
-
-  #guard-overlay.fade-out {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .guard-inner {
-    width: min(560px, 90vw);
-    border: 1px solid var(--border-gold);
-    background: var(--bg2);
-    padding: 3rem 3.5rem;
-    position: relative;
-    animation: fadeUp 0.7s ease 0.1s both;
-  }
-
-  .guard-inner::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--gold);
-  }
-
-  .guard-index {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    opacity: 0.7;
-    margin-bottom: 1.2rem;
-  }
-
-  .guard-question {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    font-weight: 700;
-    line-height: 1.4;
-    margin-bottom: 2.2rem;
-    color: var(--text);
-  }
-
-  .guard-question em { color: var(--gold); font-style: italic; }
-
-  .guard-form {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .guard-input {
-    flex: 1;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.95rem;
-    padding: 0.75rem 1rem;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-
-  .guard-input:focus { border-color: var(--gold-dim); }
-
-  .guard-input.error { border-color: #c85a5a; animation: shake 0.35s ease; }
-
-  .guard-submit {
-    background: var(--gold);
-    color: var(--bg);
-    border: none;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.75rem 1.6rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.3s, transform 0.2s;
-  }
-
-  .guard-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-  .guard-hint {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    margin-top: 1.2rem;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%       { transform: translateX(-6px); }
-    40%       { transform: translateX(6px); }
-    60%       { transform: translateX(-4px); }
-    80%       { transform: translateX(4px); }
-  }
 </style>
 </head>
 <body>
-
-<!-- GUARD -->
-<div id="guard-overlay">
-  <div class="guard-inner">
-    <div class="guard-index">// access verification</div>
-    <div class="guard-question" id="guard-q"></div>
-    <div class="guard-form">
-      <input class="guard-input" id="guard-input" type="text" placeholder="your answer…" autocomplete="off" />
-      <button class="guard-submit" id="guard-btn">Enter</button>
-    </div>
-    <div class="guard-hint" id="guard-hint">Wrong answer? You'll be redirected to Google.</div>
-  </div>
-</div>
-
-<script>
-(function () {
-  var questions = [
-    {
-      text: 'What is the answer to the <em>Ultimate Question of Life, the Universe, and Everything</em>?',
-      plain: 'What is the answer to the Ultimate Question of Life, the Universe, and Everything?',
-      answers: ['42']
-    },
-    {
-      text: 'What is the value of the <em>square root of −1</em>?',
-      plain: 'What is the value of the square root of -1?',
-      answers: ['i', 'sqrt(-1)', '√-1', '√(−1)', 'sqrt(−1)']
-    },
-    {
-      text: 'What is the <em>only even prime number</em>?',
-      plain: 'What is the only even prime number?',
-      answers: ['2']
-    },
-    {
-      text: 'How many <em>bits</em> are in a byte?',
-      plain: 'How many bits are in a byte?',
-      answers: ['8']
-    },
-    {
-      text: 'What is the sum of <em>angles in a triangle</em> (in degrees)?',
-      plain: 'What is the sum of angles in a triangle (in degrees)?',
-      answers: ['180', '180°', '180 degrees']
-    }
-  ];
-
-  var q = questions[Math.floor(Math.random() * questions.length)];
-  document.getElementById('guard-q').innerHTML = q.text;
-
-  function check() {
-    var val = document.getElementById('guard-input').value.trim().toLowerCase();
-    var correct = q.answers.some(function (a) { return val === a.toLowerCase(); });
-    if (correct) {
-      var overlay = document.getElementById('guard-overlay');
-      overlay.classList.add('fade-out');
-      setTimeout(function () { overlay.style.display = 'none'; }, 650);
-    } else {
-      var input = document.getElementById('guard-input');
-      input.classList.remove('error');
-      void input.offsetWidth; // reflow to restart animation
-      input.classList.add('error');
-      setTimeout(function () {
-        window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(q.plain);
-      }, 400);
-    }
-  }
-
-  document.getElementById('guard-btn').addEventListener('click', check);
-  document.getElementById('guard-input').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') check();
-  });
-})();
-</script>
+<script>initGuard();</script>
 
 <!-- NAV -->
 <nav>
@@ -2132,67 +1928,7 @@
     });
   });
 
-  // ── Custom cursor & gold dust ──
-  (function() {
-    if (window.matchMedia('(max-width: 900px)').matches) return;
-
-    const dot = document.createElement('div');
-    dot.className = 'cursor-dot';
-    document.body.appendChild(dot);
-
-    const canvas = document.createElement('canvas');
-    canvas.className = 'cursor-canvas';
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    let mx = -100, my = -100;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.left = mx + 'px';
-      dot.style.top = my + 'px';
-      dot.style.opacity = '1';
-      for (let i = 0; i < 3; i++) {
-        particles.push({
-          x: mx + (Math.random() - 0.5) * 4,
-          y: my + (Math.random() - 0.5) * 4,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: (Math.random() - 0.5) * 1.5 + 0.5,
-          life: 1,
-          size: Math.random() * 2.5 + 1
-        });
-      }
-    });
-
-    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
-    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; });
-
-    const particles = [];
-
-    function loop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.life -= 0.02;
-        if (p.life <= 0) { particles.splice(i, 1); continue; }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200,150,90,${p.life * 0.6})`;
-        ctx.fill();
-      }
-      requestAnimationFrame(loop);
-    }
-    loop();
-  })();
+  initCursor();
 </script>
 </body>
 </html>
