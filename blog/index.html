@@ -225,6 +225,63 @@
     font-size: 0.8rem;
   }
 
+  /* Card variant: not a full-link wrapper, has nested action buttons */
+  .post-item--linked {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 2rem;
+    align-items: start;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .post-item--linked:first-child { border-top: 1px solid var(--border); }
+
+  .post-item--linked .post-title-link {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    text-decoration: none;
+    transition: color 0.2s;
+    display: block;
+  }
+
+  .post-item--linked .post-title-link:hover { color: var(--gold); }
+
+  .post-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .post-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    transition: all 0.2s;
+  }
+
+  .post-link-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+  }
+
+  .post-link-btn--primary { background: rgba(200,150,90,0.08); }
+
   /* EMPTY STATE */
   .empty-state {
     padding: 4rem 0;
@@ -350,6 +407,66 @@
         </div>
       </div>
     </a>
+
+    <div class="post-item--linked">
+      <div class="post-date">
+        26 Kwi<br>2026
+      </div>
+      <div class="post-body">
+        <div class="post-tags">
+          <span class="post-tag">Neuronauka</span>
+          <span class="post-tag">Produktywność</span>
+          <span class="post-tag">Research</span>
+        </div>
+        <a href="posts/2026-04-26-poranne-cele-neuronauka.html" class="post-title-link">Neuronaukowe podstawy porannego zapisywania celów</a>
+        <div class="post-excerpt">
+          Artykuł rekonstruujący metodę coachingową codziennego, ręcznego zapisywania celów
+          w kategoriach badań fMRI, fNIRS i meta-analiz psychologii wyznaczania celów.
+          Z propozycją badania empirycznego.
+        </div>
+        <div class="post-links">
+          <a href="https://github.com/konradcinkusz/poranne-cele-neuronauka/releases/latest/download/Neuronauka_Porannego_Zapisywania_Celow.pdf"
+             class="post-link-btn post-link-btn--primary"
+             target="_blank" rel="noopener">↓ PDF</a>
+          <a href="https://github.com/konradcinkusz/poranne-cele-neuronauka"
+             class="post-link-btn"
+             target="_blank" rel="noopener">⎇ GitHub</a>
+          <a href="posts/2026-04-26-poranne-cele-neuronauka.html" class="post-link-btn">
+            Czytaj <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-item--linked">
+      <div class="post-date">
+        19 Kwi<br>2026
+      </div>
+      <div class="post-body">
+        <div class="post-tags">
+          <span class="post-tag">Research</span>
+          <span class="post-tag">Neuroscience</span>
+          <span class="post-tag">Engineering</span>
+        </div>
+        <a href="posts/2026-04-19-cms-code-review.html" class="post-title-link">Chronic Mild Stress in Code Review</a>
+        <div class="post-excerpt">
+          Translational research article proposing that low-effort, non-actionable code review
+          comments satisfy the defining criteria of the chronic mild stress paradigm from
+          rodent behavioural neuroscience.
+        </div>
+        <div class="post-links">
+          <a href="https://github.com/konradcinkusz/cms-code-review-article/releases/latest/download/CMS_Code_Review.pdf"
+             class="post-link-btn post-link-btn--primary"
+             target="_blank" rel="noopener">↓ PDF</a>
+          <a href="https://github.com/konradcinkusz/cms-code-review-article"
+             class="post-link-btn"
+             target="_blank" rel="noopener">⎇ GitHub</a>
+          <a href="posts/2026-04-19-cms-code-review.html" class="post-link-btn">
+            Czytaj <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
     <!-- TUTAJ WKLEJAJ KOLEJNE WPISY (od najnowszego) -->
 

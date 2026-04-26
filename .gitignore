@@ -1,0 +1,18 @@
+# Visual Studio
+.vs/
+
+# C# / .NET
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.VC.opendb
+[Bb]in/
+[Oo]bj/
