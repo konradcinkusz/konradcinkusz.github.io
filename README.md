@@ -14,11 +14,12 @@ A dark-themed, single-page portfolio built with vanilla HTML/CSS/JS. Features CS
 | 02 | Favourites | Books and music picks |
 | 03 | Tech Stack | Skills grid across 6 categories |
 | 04 | Aurelius.today | AI governance & workflow automation platform |
-| 05 | Research & Academia | Peer-reviewed publications (Electronics, IEEE/ACM, MDAI) + education |
-| 06 | Work History | Full career timeline 2014 – present |
-| 07 | Availability | Collaboration modes and current status |
-| 08 | Writing & Reading | Blog and book reviews (in Polish) |
-| 09 | Contact | Email, LinkedIn, GitHub, ORCID |
+| 05 | Open Source | Nine featured public repositories, linked to the full portfolio map |
+| 06 | Research & Academia | Peer-reviewed publications (Electronics, IEEE/ACM, MDAI) + education |
+| 07 | Work History | Full career timeline 2014 – present |
+| 08 | Availability | Collaboration modes and current status |
+| 09 | Writing & Reading | Blog and book reviews (in Polish) |
+| 10 | Contact | Email, LinkedIn, GitHub, ORCID |
 
 ## Tech
 
