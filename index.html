@@ -1077,6 +1077,110 @@
   }
 
   /* ── WRITING ── */
+  /* OPEN SOURCE */
+  #opensource { background: var(--bg2); }
+
+  .os-lede {
+    max-width: 60ch;
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  .os-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .os-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 2.25rem;
+    text-decoration: none;
+    transition: border-color 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .os-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold-dim), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .os-card:hover { border-color: var(--border-gold); background: var(--bg2); }
+  .os-card:hover::before { transform: scaleX(1); }
+  .os-card:hover .os-arrow { transform: translateX(6px); color: var(--gold); }
+
+  .os-card-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.55;
+    margin-bottom: 1.5rem;
+  }
+
+  .os-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 0.9rem;
+    word-break: break-word;
+  }
+
+  .os-card-desc {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .os-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+
+  .os-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .os-arrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    transition: transform 0.3s, color 0.3s;
+  }
+
+  .os-more {
+    margin-top: 2.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+  }
+
+  .os-more a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--border-gold); }
+  .os-more a:hover { color: var(--gold-light); }
+
   #writing { background: var(--bg2); }
 
   .writing-grid {
@@ -1155,6 +1259,7 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .writing-grid { grid-template-columns: 1fr; }
+    .os-grid { grid-template-columns: 1fr; }
     nav { padding: 1.2rem 2rem; }
     .nav-links { display: none; }
     section { padding: 5rem 2rem; }
@@ -1182,6 +1287,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#aurelius">Aurelius</a></li>
+    <li><a href="#opensource">Open Source</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="blog/index.html">Blog</a></li>
@@ -1524,10 +1630,140 @@
 
 </section>
 
+<!-- OPEN SOURCE -->
+<section id="opensource">
+  <div class="section-header reveal">
+    <span class="section-index">05</span>
+    <h2 class="section-title">Open <em>Source</em></h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <p class="os-lede reveal">
+    The projects I actively maintain &mdash; AI tooling, developer infrastructure, and
+    educational .NET content. Each one is public, licensed, and documented with what is
+    finished alongside what is not.
+  </p>
+
+  <div class="os-grid reveal">
+    <a href="https://github.com/konradcinkusz/architecture-standards" class="os-card">
+      <div class="os-card-kicker">Standards / Agent plugins</div>
+      <div class="os-card-title">architecture-<em>standards</em></div>
+      <p class="os-card-desc">An architecture constitution for .NET Aspire on Fly.io and Azure &mdash; fifteen principles and seventeen operational guides, readable as documentation and installable as agent plugins for Claude Code, Copilot and VS Code.</p>
+      <div class="os-pills">
+        <span class="os-pill">Markdown</span>
+        <span class="os-pill">Node.js 22</span>
+        <span class="os-pill">Agent Plugins</span>
+        <span class="os-pill">GitHub Pages</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/agent-eval-bench" class="os-card">
+      <div class="os-card-kicker">Evaluation / Agents</div>
+      <div class="os-card-title">agent-<em>eval-bench</em></div>
+      <p class="os-card-desc">A spec-first evaluation bench for tool-using agents: YAML scenarios graded over the execution trace, a deterministic layer that gates every pull request, and a rubric judge that reports <em>skipped</em> rather than green without credentials.</p>
+      <div class="os-pills">
+        <span class="os-pill">.NET 10</span>
+        <span class="os-pill">YAML</span>
+        <span class="os-pill">GitHub Actions</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/listing-search-bench" class="os-card">
+      <div class="os-card-kicker">Evaluation / Search</div>
+      <div class="os-card-title">listing-<em>search-bench</em></div>
+      <p class="os-card-desc">The same method applied to a hybrid search ranker: a behaviour contract written before the pipeline, 28 scenarios and 128 assertions &mdash; 22% of them asserting that something was never even a candidate.</p>
+      <div class="os-pills">
+        <span class="os-pill">.NET 10</span>
+        <span class="os-pill">Elasticsearch</span>
+        <span class="os-pill">Vector search</span>
+        <span class="os-pill">Docker</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/copilot-scope" class="os-card">
+      <div class="os-card-kicker">Observability / Agents</div>
+      <div class="os-card-title">Copilot<em>Scope</em></div>
+      <p class="os-card-desc">AI coding-session observability &mdash; an OTLP collector with a hand-written protobuf decoder, a Postgres store, and a Blazor dashboard that scores session quality rather than token spend, across five assistants.</p>
+      <div class="os-pills">
+        <span class="os-pill">.NET</span>
+        <span class="os-pill">OpenTelemetry</span>
+        <span class="os-pill">Blazor</span>
+        <span class="os-pill">PostgreSQL</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/claude-scope" class="os-card">
+      <div class="os-card-kicker">Forensics / Sessions</div>
+      <div class="os-card-title">claude-<em>scope</em></div>
+      <p class="os-card-desc">Session forensics for coding agents: a skill that turns a session&rsquo;s own transcript into token, timing and conversation-shape analytics with a visual timeline. The script does every calculation &mdash; the model never does arithmetic.</p>
+      <div class="os-pills">
+        <span class="os-pill">Python</span>
+        <span class="os-pill">Agent Plugins</span>
+        <span class="os-pill">HTML</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/authservice" class="os-card">
+      <div class="os-card-kicker">Identity / Microservice</div>
+      <div class="os-card-title">auth<em>service</em></div>
+      <p class="os-card-desc">A standalone auth microservice for ASP.NET Core: JWT with rotating refresh tokens and reuse detection, RS256 with published JWKS, OAuth with provider-side email verification, and an append-only audit log.</p>
+      <div class="os-pills">
+        <span class="os-pill">.NET</span>
+        <span class="os-pill">JWT / JWKS</span>
+        <span class="os-pill">OAuth</span>
+        <span class="os-pill">PostgreSQL</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/parcel-number-generator" class="os-card">
+      <div class="os-card-kicker">Modernization / .NET</div>
+      <div class="os-card-title">parcel-<em>number-generator</em></div>
+      <p class="os-card-desc">A warehousing system carried from a 2018 .NET Framework solution to three .NET 10 services: a finite number pool with exclusions, a notification service absorbed from a second repository, and CI that fails a model drifted from its migrations.</p>
+      <div class="os-pills">
+        <span class="os-pill">.NET 10</span>
+        <span class="os-pill">.NET Aspire</span>
+        <span class="os-pill">EF Core</span>
+        <span class="os-pill">Blazor</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://github.com/konradcinkusz/architecture-standards-init-example" class="os-card">
+      <div class="os-card-kicker">Reference / Greenfield</div>
+      <div class="os-card-title">architecture-standards-<em>init-example</em></div>
+      <p class="os-card-desc">What the constitution produces when pointed at an empty repository: one Aspire composition root, a shared kernel with its ceiling enforced in CI, a Next.js surface reading config per request, and eight workflows &mdash; with no domain model, deliberately.</p>
+      <div class="os-pills">
+        <span class="os-pill">.NET 10</span>
+        <span class="os-pill">Next.js</span>
+        <span class="os-pill">Playwright</span>
+        <span class="os-pill">Fly.io</span>
+      </div>
+      <div class="os-arrow"><span>View repository</span> &rarr;</div>
+    </a>
+    <a href="https://konradcinkusz.github.io/SupercompensationApp/" class="os-card">
+      <div class="os-card-kicker">Model / Live app</div>
+      <div class="os-card-title">Supercompensation<em>App</em></div>
+      <p class="os-card-desc">The supercompensation curve &mdash; fatigue, recovery, overshoot &mdash; carried from sport over to Agile sprints, as a Blazor WebAssembly app with the model&rsquo;s formulas written out so the arithmetic can be checked without reading the code.</p>
+      <div class="os-pills">
+        <span class="os-pill">Blazor WASM</span>
+        <span class="os-pill">Chart.js</span>
+        <span class="os-pill">GitHub Pages</span>
+      </div>
+      <div class="os-arrow"><span>Open the app</span> &rarr;</div>
+    </a>
+  </div>
+
+  <p class="os-more reveal">
+    Forty-three repositories are catalogued in the
+    <a href="https://github.com/konradcinkusz/konradcinkusz">portfolio map</a> &mdash; bilingual,
+    with a consolidation analysis and an operating model behind them. The rest live at
+    <a href="https://github.com/konradcinkusz">github.com/konradcinkusz</a>.
+  </p>
+</section>
+
 <!-- RESEARCH -->
 <section id="research">
   <div class="section-header reveal">
-    <span class="section-index">05</span>
+    <span class="section-index">06</span>
     <h2 class="section-title">Research &amp; <em>Academia</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1578,7 +1814,7 @@
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header reveal">
-    <span class="section-index">06</span>
+    <span class="section-index">07</span>
     <h2 class="section-title">Work <em>History</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1786,7 +2022,7 @@
 <!-- AVAILABILITY -->
 <section id="availability">
   <div class="section-header reveal">
-    <span class="section-index">07</span>
+    <span class="section-index">08</span>
     <h2 class="section-title">Availability &amp; <em>Collaboration</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1846,7 +2082,7 @@
 <!-- WRITING -->
 <section id="writing">
   <div class="section-header reveal">
-    <span class="section-index">08</span>
+    <span class="section-index">09</span>
     <h2 class="section-title">Writing &amp; <em>Reading</em></h2>
     <div class="section-rule"></div>
   </div>
@@ -1877,7 +2113,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
-    <span class="section-index">09</span>
+    <span class="section-index">10</span>
     <h2 class="section-title">Get in <em>Touch</em></h2>
     <div class="section-rule"></div>
   </div>
