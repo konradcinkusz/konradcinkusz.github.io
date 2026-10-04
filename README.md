@@ -32,7 +32,6 @@ Pure HTML5 · CSS3 (custom properties, keyframes, grid/flexbox) · Vanilla JavaS
 
 ## Employment (CV summary)
 
-- **Apr 2026 – present** — Software Engineer, Axpo Iberia (Madrid, Spain) · available from October 2026
 - **Apr – Oct 2025** — Software Engineer, Capitole Consulting (Alicante, Spain)
 - **Sep 2022 – Feb 2025** — Full-Stack Engineer, Nisa / Crosslake Technologies (UK, remote)
 - **Mar – Sep 2022** — Full-Stack Engineer, Solgari / Bright Coders' Factory (Ireland, remote)
